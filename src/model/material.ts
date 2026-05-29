@@ -1,3 +1,5 @@
+import type { PurposeID } from './purpose';
+
 export type MaterialID =
   | 'rubber-crumb'
   | 'paving-stone'
@@ -9,5 +11,5 @@ export interface Material {
   description: string;
   priceFrom: number;
   unit: string;
-  purposes: string[];
+  purposes: PurposeID[];
 }

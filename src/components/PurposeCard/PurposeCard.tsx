@@ -1,26 +1,46 @@
-import type { Purpose } from '../../model/purpose';
+import type { Purpose, PurposeID } from '../../model/purpose';
 
 import styles from './PurposeCard.module.scss';
 
 interface PurposeCardProps {
   purpose: Purpose;
+  selected: boolean;
+  onSelect: (purposeID: PurposeID) => void;
 }
 
-export function PurposeCard({ purpose }: PurposeCardProps) {
+export function PurposeCard({
+  purpose,
+  selected,
+  onSelect,
+}: PurposeCardProps) {
+  const classNames = [
+    styles.card,
+    selected ? styles.selected : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <article className={styles.card}>
-      <div className={styles.icon} aria-hidden="true">
+    <button
+      className={classNames}
+      type="button"
+      aria-pressed={selected}
+      onClick={() => onSelect(purpose.id)}
+    >
+      <span className={styles.icon} aria-hidden="true">
         {purpose.title.slice(0, 1)}
-      </div>
+      </span>
 
-      <h3 className={styles.title}>{purpose.title}</h3>
+      <span className={styles.title}>{purpose.title}</span>
 
-      <p className={styles.description}>{purpose.description}</p>
+      <span className={styles.description}>
+        {purpose.description}
+      </span>
 
-      <a className={styles.link} href="#materials">
-        Смотреть материалы
+      <span className={styles.action}>
+        {selected ? 'Выбрано' : 'Выбрать'}
         <span aria-hidden="true">→</span>
-      </a>
-    </article>
+      </span>
+    </button >
   );
 }

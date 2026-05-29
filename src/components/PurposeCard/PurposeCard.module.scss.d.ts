@@ -1,8 +1,9 @@
 export type Styles = {
+  'action': string;
   'card': string;
   'description': string;
   'icon': string;
-  'link': string;
+  'selected': string;
   'title': string;
 };
 

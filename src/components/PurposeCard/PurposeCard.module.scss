@@ -2,21 +2,35 @@
 @use '../../styles/variables' as v;
 
 .card {
+  @include mixins.focus-ring;
+
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 15.5rem;
   padding: 1.5rem;
-  border: 0.0625rem solid v.$color-border;
+  border: 1px solid v.$color-border;
   border-radius: v.$radius-medium;
+  color: v.$color-text;
   background-color: v.$color-surface;
+  font: inherit;
+  text-align: left;
   transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
     transform 160ms ease,
     box-shadow 160ms ease;
 
   &:hover {
     transform: translateY(-0.1875rem);
+    border-color: v.$color-primary;
     box-shadow: v.$shadow-card;
   }
+}
+
+.selected {
+  border-color: v.$color-primary;
+  background-color: v.$color-primary-soft;
 }
 
 .icon {
@@ -31,9 +45,15 @@
   font-weight: 700;
 }
 
+.selected .icon {
+  color: v.$color-surface;
+  background-color: v.$color-primary;
+}
+
 .title {
   margin-bottom: 0.625rem;
   font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .description {
@@ -43,9 +63,7 @@
   line-height: 1.6;
 }
 
-.link {
-  @include mixins.focus-ring;
-
+.action {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -53,11 +71,11 @@
   font-size: 0.9375rem;
   font-weight: 600;
 
-  span {
+  >span {
     transition: transform 160ms ease;
   }
+}
 
-  &:hover span {
-    transform: translateX(0.25rem);
-  }
+.card:hover .action>span {
+  transform: translateX(0.25rem);
 }

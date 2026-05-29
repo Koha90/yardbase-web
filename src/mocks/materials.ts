@@ -7,7 +7,7 @@ export const materials: Material[] = [
     description: 'Мягкое бесшовное покрытие для игровых и спортивных зон.',
     priceFrom: 1_800,
     unit: 'м²',
-    purposes: ['Детская зона', 'Дорожка'],
+    purposes: ['playground', 'path'],
   },
   {
     id: 'paving-stone',
@@ -15,7 +15,7 @@ export const materials: Material[] = [
     description: 'Надёжное решение для дорожек, парковок и площадок.',
     priceFrom: 1_250,
     unit: 'м²',
-    purposes: ['Парковка', 'Дорожка', 'Терраса'],
+    purposes: ['parking', 'path', 'terrace'],
   },
   {
     id: 'stone-carpet',
@@ -23,6 +23,6 @@ export const materials: Material[] = [
     description: 'Декоративное покрытие из камня для красивых входных зон.',
     priceFrom: 2_900,
     unit: 'м²',
-    purposes: ['Терраса', 'Дорожка'],
+    purposes: ['terrace', 'path'],
   },
 ];
