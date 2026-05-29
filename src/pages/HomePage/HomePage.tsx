@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '../../components/Button/Button';
 import { Container } from '../../components/Container/Container';
@@ -18,6 +18,10 @@ export function HomePage() {
   const [selectedPurposeID, setSelectedPurposeID] =
     useState<PurposeID | null>(null);
 
+  const materialsSectionRef = useRef<HTMLElement>(null);
+  const materialsHeadingRef = useRef<HTMLHeadingElement>(null);
+  const shouldRevealResultsRef = useRef(false);
+
   const selectedPurpose = purposes.find(
     (purpose) => purpose.id === selectedPurposeID,
   );
@@ -28,14 +32,50 @@ export function HomePage() {
       material.purposes.includes(selectedPurposeID),
     );
 
+  const resultsMessage = selectedPurpose === undefined
+    ? `Показано покрытий: ${visibleMaterials.length}`
+    : `Для задачи «${selectedPurpose.title}» найдено покрытий: ${visibleMaterials.length}`;
+
+  useEffect(() => {
+    if (!shouldRevealResultsRef.current) {
+      return;
+    }
+
+    shouldRevealResultsRef.current = false;
+
+    materialsHeadingRef.current?.focus({
+      preventScroll: true,
+    });
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    materialsSectionRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }, [selectedPurposeID]);
+
   function handlePurposeSelect(purposeID: PurposeID) {
+    shouldRevealResultsRef.current = true;
+
     setSelectedPurposeID((currentPurposeID) =>
       currentPurposeID === purposeID ? null : purposeID,
     );
   }
 
-  function handleResetPurpose() {
-    setSelectedPurposeID(null);
+  function handleFilterSelect(purposeID: PurposeID | null) {
+    setSelectedPurposeID(purposeID);
+  }
+
+  function filterClassName(selected: boolean) {
+    return [
+      styles.filterChip,
+      selected ? styles.activeFilterChip : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
   }
 
   return (
@@ -71,46 +111,88 @@ export function HomePage() {
           </Container>
         </section>
 
-        <section className={styles.materials} id="materials">
+        <section
+          className={styles.materials}
+          id="materials"
+          ref={materialsSectionRef}
+          aria-labelledby="materials-title"
+        >
           <Container>
-            <div className={styles.materialsHeader}>
-              <div className={styles.sectionHeader}>
-                <p className={styles.eyebrow}>Материалы</p>
+            <div className={styles.sectionHeader}>
+              <p className={styles.eyebrow}>Материалы</p>
 
-                <h2>
-                  {selectedPurpose === undefined
-                    ? 'Популярные покрытия для вашего двора'
-                    : `Покрытия для задачи «${selectedPurpose.title}»`}
-                </h2>
+              <h2
+                className={styles.materialsTitle}
+                id="materials-title"
+                ref={materialsHeadingRef}
+                tabIndex={-1}
+              >
+                Подходящие покрытия
+              </h2>
 
-                <p>
-                  Сравните решения по назначению и ориентировочной
-                  стоимости за квадратный метр.
-                </p>
-              </div>
-
-              {selectedPurpose !== undefined && (
-                <button
-                  className={styles.resetButton}
-                  type="button"
-                  onClick={handleResetPurpose}
-                >
-                  Показать все
-                </button>
-              )}
+              <p>
+                Переключайте назначение участка и сравнивайте
+                ориентировочную стоимость решений.
+              </p>
             </div>
 
-            <div className={styles.materialGrid}>
-              {visibleMaterials.map((material) => (
-                <MaterialCard key={material.id} material={material} />
+            <div
+              className={styles.filters}
+              role="group"
+              aria-label="Фильтр покрытий по назначению"
+            >
+              <button
+                className={filterClassName(selectedPurposeID === null)}
+                type="button"
+                aria-pressed={selectedPurposeID === null}
+                onClick={() => handleFilterSelect(null)}
+              >
+                Все
+              </button>
+
+              {purposes.map((purpose) => (
+                <button
+                  className={filterClassName(
+                    selectedPurposeID === purpose.id,
+                  )}
+                  key={purpose.id}
+                  type="button"
+                  aria-pressed={selectedPurposeID === purpose.id}
+                  onClick={() => handleFilterSelect(purpose.id)}
+                >
+                  {purpose.title}
+                </button>
               ))}
             </div>
 
-            {visibleMaterials.length === 0 && (
-              <p className={styles.emptyMessage}>
-                Для этой задачи пока нет материалов в каталоге.
-              </p>
-            )}
+            <p
+              className={styles.resultsSummary}
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {resultsMessage}
+            </p>
+
+            <div
+              className={styles.results}
+              key={selectedPurposeID ?? 'all'}
+            >
+              {visibleMaterials.length > 0 ? (
+                <div className={styles.materialGrid}>
+                  {visibleMaterials.map((material) => (
+                    <MaterialCard
+                      key={material.id}
+                      material={material}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className={styles.emptyMessage}>
+                  Для этой задачи пока нет материалов в каталоге.
+                </p>
+              )}
+            </div>
           </Container>
         </section>
 

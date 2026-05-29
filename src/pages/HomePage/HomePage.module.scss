@@ -9,6 +9,79 @@
 
 .materials {
   @include mixins.section;
+
+  scroll-margin-top: 5.75rem;
+}
+
+.materialsTitle {
+  @include mixins.focus-ring;
+
+  width: fit-content;
+  border-radius: 0.25rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
+}
+
+.filterChip {
+  @include mixins.focus-ring;
+
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+  border: 1px solid v.$color-border;
+  border-radius: 999rem;
+  color: v.$color-text-muted;
+  background-color: v.$color-surface;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background-color 160ms ease;
+
+  &:hover {
+    border-color: v.$color-primary;
+    color: v.$color-primary-hover;
+  }
+}
+
+.activeFilterChip {
+  border-color: v.$color-primary;
+  color: v.$color-surface;
+  background-color: v.$color-primary;
+
+  &:hover {
+    color: v.$color-surface;
+    background-color: v.$color-primary-hover;
+  }
+}
+
+.resultsSummary {
+  margin-bottom: 1.25rem;
+  color: v.$color-text-muted;
+  font-size: 0.9375rem;
+}
+
+.results {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: results-enter 220ms ease-out;
+  }
+}
+
+@keyframes results-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sectionHeader {
@@ -103,45 +176,6 @@
   max-width: 38rem;
   color: rgb(255 253 248 / 72%);
   line-height: 1.65;
-}
-
-.materialsHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
-
-  .sectionHeader {
-    margin-bottom: 0;
-  }
-
-  @media (width >=v.$breakpoint-tablet) {
-    flex-direction: row;
-    align-items: end;
-    justify-content: space-between;
-  }
-}
-
-.resetButton {
-  @include mixins.focus-ring;
-
-  min-height: 2.75rem;
-  padding-inline: 1.125rem;
-  border: 1px solid v.$color-border;
-  border-radius: 999rem;
-  color: v.$color-primary;
-  background-color: transparent;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition:
-    border-color 160ms ease,
-    background-color 160ms ease;
-
-  &:hover {
-    border-color: v.$color-primary;
-    background-color: v.$color-primary-soft;
-  }
 }
 
 .emptyMessage {

@@ -5,7 +5,13 @@
 }
 
 html {
-  margin: 0;
+  scroll-behavior: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 img,

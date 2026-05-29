@@ -38,7 +38,7 @@ export function PurposeCard({
       </span>
 
       <span className={styles.action}>
-        {selected ? 'Выбрано' : 'Выбрать'}
+        {selected ? 'Показать все решения' : 'Показать решения'}
         <span aria-hidden="true">→</span>
       </span>
     </button >
