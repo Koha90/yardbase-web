@@ -1,0 +1,25 @@
+@use './variables' as v;
+
+@mixin container {
+  width: min(calc(100% - 2rem), v.$container-width);
+  margin-inline: auto;
+
+  @media (min-width: v.$breakpoint-tablet) {
+    width: min(calc(100% - 4rem), v.$container-width);
+  }
+}
+
+@mixin section {
+  padding-block: 4rem;
+
+  @media (min-width: v.$breakpoint-tablet) {
+    padding-block: 5.5rem;
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 0.1875rem solid v.$color-accent;
+    outline-offset: 0.1875rem;
+  }
+}

@@ -1,0 +1,62 @@
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as v;
+
+.button {
+  @include mixins.focus-ring;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999rem;
+  font-weight: 600;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    transform: translateY(-0.0625rem);
+  }
+}
+
+.primary {
+  color: v.$color-surface;
+  background-color: v.$color-primary;
+
+  &:hover {
+    background-color: v.$color-primary-hover;
+  }
+}
+
+.secondary {
+  color: v.$color-primary;
+  border: 0.0625rem solid v.$color-border;
+  background-color: transparent;
+
+  &:hover {
+    border-color: v.$color-primary;
+    background-color: v.$color-primary-soft;
+  }
+}
+
+.surface {
+  color: v.$color-primary;
+  background-color: v.$color-surface;
+
+  &:hover {
+    background-color: v.$color-background;
+  }
+}
+
+.medium {
+  min-height: 3.25rem;
+  padding-inline: 1.5rem;
+}
+
+.small {
+  min-height: 2.75rem;
+  padding-inline: 1.125rem;
+  font-size: 0.9375rem;
+}

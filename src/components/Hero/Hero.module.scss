@@ -1,0 +1,223 @@
+@use '../../styles/variables' as v;
+
+.hero {
+  padding-block: 2.5rem 4rem;
+
+  @media (width >=v.$breakpoint-tablet) {
+    padding-block: 4.5rem 5rem;
+  }
+}
+
+.layout {
+  display: grid;
+  align-items: center;
+  gap: 2.75rem;
+
+  @media (width >=v.$breakpoint-desktop) {
+    grid-template-columns: minmax(25rem, 1fr) minmax(25rem, 0.85fr);
+    gap: 4.5rem;
+  }
+}
+
+.content {
+  max-width: 39rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  margin-bottom: 1.25rem;
+  padding-inline: 0.875rem;
+  border-radius: 999rem;
+  color: v.$color-primary;
+  background-color: v.$color-primary-soft;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.title {
+  max-width: 39rem;
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.06em;
+}
+
+.description {
+  max-width: 34rem;
+  margin-bottom: 2rem;
+  color: v.$color-text-muted;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-bottom: 2.5rem;
+}
+
+.benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem 1.5rem;
+  color: v.$color-text-muted;
+  font-size: 0.9375;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &::before {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background-color: v.$color-accent;
+    }
+  }
+}
+
+.preview {
+  padding: 1.125rem;
+  border: 0.0625rem solid v.$color-border;
+  border-radius: v.$radius-large;
+  background-color: v.$color-surface;
+  box-shadow: v.$shadow-soft;
+
+  @media (width >=v.$breakpoint-tablet) {
+    padding: 1.5rem;
+  }
+}
+
+.previewHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.previewLabel {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.previewTitle {
+  font-size: 1.375rem;
+  letter-spacing: -0.03em;
+}
+
+.status {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999rem;
+  color: v.$color-primary;
+  background-color: v.$color-primary-soft;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.parameters {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.parameter {
+  display: grid;
+  gap: 0.4rem;
+  min-height: 5rem;
+  padding: 0.875rem;
+  border-radius: v.$radius-small;
+  background-color: v.$color-background;
+
+  span {
+    color: v.$color-text-muted;
+    font-size: 0.75rem;
+  }
+
+  strong {
+    align-self: end;
+    font-size: 0.9375rem;
+  }
+}
+
+.materialsTitle {
+  margin-bottom: 0.75rem;
+  color: v.$color-text-muted;
+  font-size: 0.8125rem;
+}
+
+.previewMaterials {
+  display: grid;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+}
+
+.previewMaterial {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem;
+  border: 0.0625rem solid v.$color-border;
+  border-radius: v.$radius-small;
+
+  p {
+    margin-bottom: 0.25rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  span {
+    color: v.$color-text-muted;
+    font-size: 0.8125rem;
+  }
+}
+
+.selected {
+  border-color: v.$color-primary;
+  background-color: v.$color-primary-soft;
+}
+
+.radio {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 0.125rem solid v.$color-border;
+  border-radius: 50%;
+}
+
+.selected .radio {
+  border: 0.3125rem solid v.$color-primary;
+  background-color: v.$color-surface;
+}
+
+.total {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 0.0625rem solid v.$color-border;
+
+  span {
+    max-width: 9rem;
+    color: v.$color-text-muted;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  strong {
+    color: v.$color-primary;
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+}
