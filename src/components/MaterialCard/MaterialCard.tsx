@@ -1,24 +1,34 @@
-import type { Material } from '../../model/material';
-import type { PurposeID } from '../../model/purpose';
+import type { Material, MaterialID } from "../../model/material";
+import type { PurposeID } from "../../model/purpose";
 
-import styles from './MaterialCard.module.scss';
+import styles from "./MaterialCard.module.scss";
 
-const priceFormatter = new Intl.NumberFormat('ru-RU');
+const priceFormatter = new Intl.NumberFormat("ru-RU");
 
 const purposeLabels: Record<PurposeID, string> = {
-  parking: 'Парковка',
-  path: 'Дорожка',
-  playground: 'Детская зона',
-  terrace: 'Терраса',
+  parking: "Парковка",
+  path: "Дорожка",
+  playground: "Детская зона",
+  terrace: "Терраса",
 };
 
 interface MaterialCardProps {
   material: Material;
+  selected: boolean;
+  onCalculate: (materialID: MaterialID) => void;
 }
 
-export function MaterialCard({ material }: MaterialCardProps) {
+export function MaterialCard({
+  material,
+  selected,
+  onCalculate,
+}: MaterialCardProps) {
+  const classNames = [styles.card, selected ? styles.selectedCard : ""]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <article className={styles.card}>
+    <article className={classNames}>
       <div>
         <h3 className={styles.title}>{material.title}</h3>
 
@@ -26,9 +36,7 @@ export function MaterialCard({ material }: MaterialCardProps) {
 
         <ul className={styles.purposes} aria-label="Подходит для">
           {material.purposes.map((purposeID) => (
-            <li key={purposeID}>
-              {purposeLabels[purposeID]}
-            </li>
+            <li key={purposeID}>{purposeLabels[purposeID]}</li>
           ))}
         </ul>
       </div>
@@ -39,9 +47,14 @@ export function MaterialCard({ material }: MaterialCardProps) {
           <small>/ {material.unit}</small>
         </p>
 
-        <a className={styles.link} href="#calculator">
-          Рассчитать
-        </a>
+        <button
+          className={styles.link}
+          type="button"
+          aria-pressed={selected}
+          onClick={() => onCalculate(material.id)}
+        >
+          {selected ? "В расчёте" : "Рассчитать"}
+        </button>
       </div>
     </article>
   );

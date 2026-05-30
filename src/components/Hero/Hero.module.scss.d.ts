@@ -1,5 +1,8 @@
 export type Styles = {
+  'benefit': string;
+  'benefitDot': string;
   'benefits': string;
+  'benefitText': string;
   'buttons': string;
   'content': string;
   'description': string;

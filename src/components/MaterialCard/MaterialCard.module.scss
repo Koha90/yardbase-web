@@ -1,5 +1,5 @@
-@use '../../styles/mixins' as mixins;
-@use '../../styles/variables' as v;
+@use "../../styles/mixins" as mixins;
+@use "../../styles/variables" as v;
 
 .card {
   display: flex;
@@ -7,9 +7,21 @@
   justify-content: space-between;
   min-height: 20rem;
   padding: 1.625rem;
+  border: 1px solid transparent;
   border-radius: v.$radius-medium;
   background-color: v.$color-surface;
   box-shadow: v.$shadow-card;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    transform: translateY(-0.125rem);
+  }
+}
+
+.selectedCard {
+  border-color: v.$color-primary;
 }
 
 .title {
@@ -63,7 +75,11 @@
 .link {
   @include mixins.focus-ring;
 
+  padding: 0;
+  border: 0;
   color: v.$color-primary;
+  background-color: transparent;
+  font: inherit;
   font-size: 0.9375rem;
   font-weight: 600;
 

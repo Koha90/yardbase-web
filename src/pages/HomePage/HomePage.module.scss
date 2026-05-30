@@ -1,5 +1,5 @@
-@use '../../styles/mixins' as mixins;
-@use '../../styles/variables' as v;
+@use "../../styles/mixins" as mixins;
+@use "../../styles/variables" as v;
 
 .solutions {
   @include mixins.section;
@@ -13,7 +13,7 @@
   scroll-margin-top: 5.75rem;
 }
 
-.materialsTitle {
+.focusHeading {
   @include mixins.focus-ring;
 
   width: fit-content;
@@ -95,7 +95,7 @@
     letter-spacing: -0.05em;
   }
 
-  >p:last-child {
+  > p:last-child {
     color: v.$color-text-muted;
     font-size: 1rem;
     line-height: 1.65;
@@ -139,43 +139,11 @@
 
 .calculator {
   padding-block: 0 4.5rem;
+  scroll-margin-top: 5.75rem;
 
   @media (width >=v.$breakpoint-tablet) {
     padding-block: 0 6rem;
   }
-}
-
-.calculatorCard {
-  display: grid;
-  align-items: center;
-  gap: 2rem;
-  padding: 2rem;
-  border-radius: v.$radius-large;
-  color: v.$color-surface;
-  background-color: v.$color-primary;
-
-  h2 {
-    max-width: 37rem;
-    margin-bottom: 1rem;
-    font-size: clamp(1.875rem, 4vw, 2.625rem);
-    line-height: 1.15;
-    letter-spacing: -0.05em;
-  }
-
-  .eyebrow {
-    color: rgb(255 253 248 / 72%);
-  }
-
-  @media (width >=v.$breakpoint-tablet) {
-    grid-template-columns: 1fr auto;
-    padding: 3rem;
-  }
-}
-
-.calculatorDescription {
-  max-width: 38rem;
-  color: rgb(255 253 248 / 72%);
-  line-height: 1.65;
 }
 
 .emptyMessage {

@@ -1,23 +1,23 @@
 import { Button } from "../Button/Button";
 import { Container } from "../Container/Container";
 
-import styles from './Hero.module.scss';
+import styles from "./Hero.module.scss";
 
 const benefits = [
-  'Подбор покрытия',
-  'Расчёт материалов',
-  'Решения для участка',
+  "Подбор покрытия",
+  "Расчёт материалов",
+  "Решения для участка",
 ];
 
 const previewMaterials = [
   {
-    title: 'Тротуарная плитка',
-    price: 'от 1 250 ₽ / м²',
+    title: "Тротуарная плитка",
+    price: "от 1 250 ₽ / м²",
     selected: true,
   },
   {
-    title: 'Каменный ковёр',
-    price: 'от 2900 ₽ / м²',
+    title: "Каменный ковёр",
+    price: "от 2900 ₽ / м²",
     selected: false,
   },
 ];
@@ -27,23 +27,19 @@ export function Hero() {
     <section className={styles.hero}>
       <Container className={styles.layout}>
         <div className={styles.content}>
-          <p className={styles.eyebrow}>
-            Благоустройство частных территорий
-          </p>
+          <p className={styles.eyebrow}>Благоустройство частных территорий</p>
 
           <h1 className={styles.title}>
             От идеи во дворе до точного расчёта материалов
           </h1>
 
           <p className={styles.description}>
-            Подберём подходящее покрытие для дорожки, парковки,
-            детской зоны или террасы и поможем понять объём материалов.
+            Подберём подходящее покрытие для дорожки, парковки, детской зоны или
+            террасы и поможем понять объём материалов.
           </p>
 
           <div className={styles.buttons}>
-            <Button href="#solution">
-              Подобрать покрытие
-            </Button>
+            <Button href="#solution">Подобрать покрытие</Button>
 
             <Button href="#materials" variant="secondary">
               Смотреть материалы
@@ -52,7 +48,10 @@ export function Hero() {
 
           <ul className={styles.benefits} aria-label="Возможности сервиса">
             {benefits.map((benefit) => (
-              <li key={benefit}>{benefit}</li>
+              <li className={styles.benefit} key={benefit}>
+                <span className={styles.benefitDot} aria-hidden="true" />
+                <span className={styles.benefitText}>{benefit}</span>
+              </li>
             ))}
           </ul>
         </div>
@@ -86,11 +85,10 @@ export function Hero() {
               <div
                 className={[
                   styles.previewMaterial,
-                  material.selected ? styles.selected : '',
-                ].join(' ')}
+                  material.selected ? styles.selected : "",
+                ].join(" ")}
                 key={material.title}
               >
-
                 <div>
                   <p>{material.title}</p>
                   <span>{material.price}</span>
@@ -103,11 +101,10 @@ export function Hero() {
 
           <div className={styles.total}>
             <span>Ориентироваочная стоимость</span>
-            <strong>от 52 500  ₽</strong>
+            <strong>от 52 500 ₽</strong>
           </div>
         </div>
-      </Container >
-    </section >
-  )
+      </Container>
+    </section>
+  );
 }
-

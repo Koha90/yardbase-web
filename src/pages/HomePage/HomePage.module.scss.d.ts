@@ -1,15 +1,13 @@
 export type Styles = {
   'activeFilterChip': string;
   'calculator': string;
-  'calculatorCard': string;
-  'calculatorDescription': string;
   'emptyMessage': string;
   'eyebrow': string;
   'filterChip': string;
   'filters': string;
+  'focusHeading': string;
   'materialGrid': string;
   'materials': string;
-  'materialsTitle': string;
   'purposeGrid': string;
   'results': string;
   'results-enter': string;

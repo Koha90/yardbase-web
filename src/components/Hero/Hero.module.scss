@@ -1,4 +1,4 @@
-@use '../../styles/variables' as v;
+@use "../../styles/variables" as v;
 
 .hero {
   padding-block: 2.5rem 4rem;
@@ -65,20 +65,28 @@
   gap: 0.875rem 1.5rem;
   color: v.$color-text-muted;
   font-size: 0.9375;
+}
 
-  li {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+.benefit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: max-content;
+}
 
-    &::before {
-      content: '';
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      background-color: v.$color-accent;
-    }
-  }
+.benefitDot {
+  flex: 0 0 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: v.$color-accent;
+}
+
+.benefitText {
+  display: inline-block;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  white-space: nowrap;
 }
 
 .preview {

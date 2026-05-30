@@ -5,6 +5,7 @@ export type Styles = {
   'link': string;
   'price': string;
   'purposes': string;
+  'selectedCard': string;
   'title': string;
 };
 
