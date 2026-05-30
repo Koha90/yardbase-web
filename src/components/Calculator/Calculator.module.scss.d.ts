@@ -9,9 +9,14 @@ export type Styles = {
   'layout': string;
   'materialDescription': string;
   'materialTitle': string;
+  'modeButton': string;
+  'modeGroup': string;
+  'modeGroupTitle': string;
+  'modes': string;
   'note': string;
   'row': string;
   'selectedLabel': string;
+  'selectedMode': string;
   'selectLink': string;
   'summary': string;
   'summaryTitle': string;

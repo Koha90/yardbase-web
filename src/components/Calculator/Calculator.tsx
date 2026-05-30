@@ -4,6 +4,36 @@ import type { Material } from "../../model/material";
 
 import styles from "./Calculator.module.scss";
 
+type EstimateMode = "material" | "base" | "turnkey";
+
+interface EstimateModeOption {
+  id: EstimateMode;
+  title: string;
+  description: string;
+}
+
+interface CalculatorProps {
+  material: Material | null;
+}
+
+const estimateModes: EstimateModeOption[] = [
+  {
+    id: "material",
+    title: "Только материал",
+    description: "Покрытие с чётом небольшого запаса.",
+  },
+  {
+    id: "base",
+    title: "Материал + основание",
+    description: "Покрытие и ориентировочная подготовка основания.",
+  },
+  {
+    id: "turnkey",
+    title: "Под ключ",
+    description: "Материал, основание и работы по укладке.",
+  },
+];
+
 const areaFormatter = new Intl.NumberFormat("ru-RU", {
   maximumFractionDigits: 2,
 });
@@ -11,10 +41,6 @@ const areaFormatter = new Intl.NumberFormat("ru-RU", {
 const priceFormatter = new Intl.NumberFormat("ru-RU", {
   maximumFractionDigits: 0,
 });
-
-interface CalculatorProps {
-  material: Material | null;
-}
 
 function positiveNumber(value: string): number | null {
   const normalizedValue = value.trim().replace(",", ".");
@@ -32,9 +58,16 @@ function positiveNumber(value: string): number | null {
   return number;
 }
 
+function modeClassName(selected: boolean) {
+  return [styles.modeButton, selected ? styles.selectedMode : ""]
+    .filter(Boolean)
+    .join(" ");
+}
+
 export function Calculator({ material }: CalculatorProps) {
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
+  const [mode, setMode] = useState<EstimateMode>("material");
 
   const lengthValue = positiveNumber(length);
   const widthValue = positiveNumber(width);
@@ -44,8 +77,35 @@ export function Calculator({ material }: CalculatorProps) {
       ? lengthValue * widthValue
       : null;
 
-  const estimatePrice =
-    material !== null && area !== null ? material.priceFrom * area : null;
+  const materialArea =
+    material !== null && area !== null
+      ? area * (1 + material.wastePercent / 100)
+      : null;
+
+  const materialPrice =
+    material !== null && materialArea !== null
+      ? material.priceFrom * materialArea
+      : null;
+
+  const basePrice =
+    material !== null && area !== null && mode !== "material"
+      ? material.basePriceFrom * area
+      : null;
+
+  const workPrice =
+    material !== null && area !== null && mode === "turnkey"
+      ? material.workPriceFrom * area
+      : null;
+
+  const totalPrice = [materialPrice, basePrice, workPrice].reduce<
+    number | null
+  >((total, price) => {
+    if (price === null) {
+      return total;
+    }
+
+    return (total ?? 0) + price;
+  }, null);
 
   if (material === null) {
     return (
@@ -77,7 +137,7 @@ export function Calculator({ material }: CalculatorProps) {
           <p className={styles.materialDescription}>{material.description}</p>
 
           <div className={styles.fields}>
-            <label className={styles.fields}>
+            <label className={styles.field}>
               <span>Длина участка, м</span>
 
               <input
@@ -91,7 +151,7 @@ export function Calculator({ material }: CalculatorProps) {
               />
             </label>
 
-            <label className={styles.fields}>
+            <label className={styles.field}>
               <span>Ширина участка, м</span>
 
               <input
@@ -104,6 +164,22 @@ export function Calculator({ material }: CalculatorProps) {
                 onChange={(event) => setWidth(event.target.value)}
               />
             </label>
+          </div>
+
+          <div className={styles.modeGroup}>
+            <p className={styles.modeGroupTitle}>Что считать</p>
+
+            <div className={styles.modes}>
+              {estimateModes.map((estimateMode) => (
+                <button
+                  className={modeClassName(mode === estimateMode.id)}
+                  onClick={() => setMode(estimateMode.id)}
+                >
+                  <span>{estimateMode.title}</span>
+                  <small>{estimateMode.description}</small>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -121,25 +197,62 @@ export function Calculator({ material }: CalculatorProps) {
             </div>
 
             <div className={styles.row}>
-              <dt>Цена покрытия</dt>
+              <dt>Запас материала</dt>
+              <dd>{material.wastePercent}%</dd>
+            </div>
+
+            <div className={styles.row}>
+              <dt>Расчётная площадь</dt>
               <dd>
-                от {priceFormatter.format(material.priceFrom)} ₽ /{" "}
-                {material.unit}
+                {materialArea === null
+                  ? "—"
+                  : `${areaFormatter.format(materialArea)} м²`}
               </dd>
             </div>
 
-            <div className={styles.total}>
-              <dt>Стоимость материала</dt>
+            <div className={styles.row}>
+              <dt>Материал</dt>
               <dd>
-                {estimatePrice === null
+                {materialPrice === null
                   ? "—"
-                  : `от ${priceFormatter.format(estimatePrice)} ₽`}
+                  : `от ${priceFormatter.format(materialPrice)} ₽`}
+              </dd>
+            </div>
+
+            {mode !== "material" && (
+              <div className={styles.row}>
+                <dt>Основание</dt>
+                <dd>
+                  {basePrice === null
+                    ? "—"
+                    : `от ${priceFormatter.format(basePrice)} ₽`}
+                </dd>
+              </div>
+            )}
+
+            {mode === "turnkey" && (
+              <div className={styles.row}>
+                <dt>Работы</dt>
+                <dd>
+                  {workPrice === null
+                    ? "—"
+                    : `от ${priceFormatter.format(workPrice)} ₽`}
+                </dd>
+              </div>
+            )}
+
+            <div className={styles.total}>
+              <dt>Итого</dt>
+              <dd>
+                {totalPrice === null
+                  ? "—"
+                  : `от ${priceFormatter.format(totalPrice)} ₽`}
               </dd>
             </div>
           </dl>
 
           <p className={styles.note}>
-            Расчёт ориментировочный: без подготовки основания, доставки,
+            Расчёт ориентировочный: без подготовки основания, доставки,
             расходных материалов и стоимости работ.
           </p>
         </aside>
