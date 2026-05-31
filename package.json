@@ -10,7 +10,9 @@
     "lint:styles": "stylelint \"src/**/*.scss\"",
     "styles:types": "typed-scss-modules src --exportType default --nameFormat none --ignore \"src/styles/**/*.scss\"",
     "styles:types:watch": "typed-scss-modules src --watch --exportType default --nameFormat none --ignore \"src/styles/**/*.scss\"",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -32,6 +34,7 @@
     "typed-scss-modules": "^8.1.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "vitest": "^4.1.7"
   }
 }

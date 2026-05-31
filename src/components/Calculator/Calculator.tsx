@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import type { Material } from "../../model/material";
 
-import styles from "./Calculator.module.scss";
+import { calculateEstimate, type EstimateMode } from "../../model/estimate";
 
-type EstimateMode = "material" | "base" | "turnkey";
+import styles from "./Calculator.module.scss";
 
 interface EstimateModeOption {
   id: EstimateMode;
@@ -77,35 +77,14 @@ export function Calculator({ material }: CalculatorProps) {
       ? lengthValue * widthValue
       : null;
 
-  const materialArea =
+  const estimate =
     material !== null && area !== null
-      ? area * (1 + material.wastePercent / 100)
+      ? calculateEstimate({
+          material,
+          area,
+          mode,
+        })
       : null;
-
-  const materialPrice =
-    material !== null && materialArea !== null
-      ? material.priceFrom * materialArea
-      : null;
-
-  const basePrice =
-    material !== null && area !== null && mode !== "material"
-      ? material.basePriceFrom * area
-      : null;
-
-  const workPrice =
-    material !== null && area !== null && mode === "turnkey"
-      ? material.workPriceFrom * area
-      : null;
-
-  const totalPrice = [materialPrice, basePrice, workPrice].reduce<
-    number | null
-  >((total, price) => {
-    if (price === null) {
-      return total;
-    }
-
-    return (total ?? 0) + price;
-  }, null);
 
   if (material === null) {
     return (
@@ -204,18 +183,18 @@ export function Calculator({ material }: CalculatorProps) {
             <div className={styles.row}>
               <dt>Расчётная площадь</dt>
               <dd>
-                {materialArea === null
+                {estimate === null
                   ? "—"
-                  : `${areaFormatter.format(materialArea)} м²`}
+                  : `${areaFormatter.format(estimate.area)} м²`}
               </dd>
             </div>
 
             <div className={styles.row}>
               <dt>Материал</dt>
               <dd>
-                {materialPrice === null
+                {estimate === null
                   ? "—"
-                  : `от ${priceFormatter.format(materialPrice)} ₽`}
+                  : `от ${priceFormatter.format(estimate.materialPrice)} ₽`}
               </dd>
             </div>
 
@@ -223,9 +202,9 @@ export function Calculator({ material }: CalculatorProps) {
               <div className={styles.row}>
                 <dt>Основание</dt>
                 <dd>
-                  {basePrice === null
+                  {estimate?.basePrice == null
                     ? "—"
-                    : `от ${priceFormatter.format(basePrice)} ₽`}
+                    : `от ${priceFormatter.format(estimate.basePrice)} ₽`}
                 </dd>
               </div>
             )}
@@ -234,9 +213,9 @@ export function Calculator({ material }: CalculatorProps) {
               <div className={styles.row}>
                 <dt>Работы</dt>
                 <dd>
-                  {workPrice === null
+                  {estimate?.workPrice == null
                     ? "—"
-                    : `от ${priceFormatter.format(workPrice)} ₽`}
+                    : `от ${priceFormatter.format(estimate.workPrice)} ₽`}
                 </dd>
               </div>
             )}
@@ -244,9 +223,9 @@ export function Calculator({ material }: CalculatorProps) {
             <div className={styles.total}>
               <dt>Итого</dt>
               <dd>
-                {totalPrice === null
+                {estimate === null
                   ? "—"
-                  : `от ${priceFormatter.format(totalPrice)} ₽`}
+                  : `от ${priceFormatter.format(estimate.totalPrice)} ₽`}
               </dd>
             </div>
           </dl>
