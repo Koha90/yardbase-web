@@ -6,6 +6,7 @@ export type Styles = {
   'filterChip': string;
   'filters': string;
   'focusHeading': string;
+  'lead': string;
   'materialGrid': string;
   'materials': string;
   'purposeGrid': string;

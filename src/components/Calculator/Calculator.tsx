@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type { Material } from "../../model/material";
 
-import { calculateEstimate, type EstimateMode } from "../../model/estimate";
+import {
+  calculateEstimate,
+  type EstimateMode,
+  type EstimateResult,
+} from "../../model/estimate";
 
 import styles from "./Calculator.module.scss";
 
@@ -14,13 +18,17 @@ interface EstimateModeOption {
 
 interface CalculatorProps {
   material: Material | null;
+  onEstimateChange: (
+    estimate: EstimateResult | null,
+    mode: EstimateMode,
+  ) => void;
 }
 
 const estimateModes: EstimateModeOption[] = [
   {
     id: "material",
     title: "Только материал",
-    description: "Покрытие с чётом небольшого запаса.",
+    description: "Покрытие с учётом небольшого запаса.",
   },
   {
     id: "base",
@@ -64,7 +72,7 @@ function modeClassName(selected: boolean) {
     .join(" ");
 }
 
-export function Calculator({ material }: CalculatorProps) {
+export function Calculator({ material, onEstimateChange }: CalculatorProps) {
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
   const [mode, setMode] = useState<EstimateMode>("material");
@@ -77,14 +85,21 @@ export function Calculator({ material }: CalculatorProps) {
       ? lengthValue * widthValue
       : null;
 
-  const estimate =
-    material !== null && area !== null
-      ? calculateEstimate({
-          material,
-          area,
-          mode,
-        })
-      : null;
+  const estimate = useMemo(() => {
+    if (material === null || area === null) {
+      return null;
+    }
+
+    return calculateEstimate({
+      material,
+      area,
+      mode,
+    });
+  }, [area, material, mode]);
+
+  useEffect(() => {
+    onEstimateChange(estimate, mode);
+  }, [estimate, mode, onEstimateChange]);
 
   if (material === null) {
     return (
@@ -152,6 +167,8 @@ export function Calculator({ material }: CalculatorProps) {
               {estimateModes.map((estimateMode) => (
                 <button
                   className={modeClassName(mode === estimateMode.id)}
+                  key={estimateMode.id}
+                  aria-pressed={mode === estimateMode.id}
                   onClick={() => setMode(estimateMode.id)}
                 >
                   <span>{estimateMode.title}</span>
@@ -185,7 +202,7 @@ export function Calculator({ material }: CalculatorProps) {
               <dd>
                 {estimate === null
                   ? "—"
-                  : `${areaFormatter.format(estimate.area)} м²`}
+                  : `${areaFormatter.format(estimate.materialArea)} м²`}
               </dd>
             </div>
 

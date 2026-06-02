@@ -1,0 +1,183 @@
+@use "../../styles/mixins" as mixins;
+@use "../../styles/variables" as v;
+
+.card {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-large;
+  background-color: v.$color-surface;
+  box-shadow: v.$shadow-card;
+
+  @media (width >= v.$breakpoint-desktop) {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.45fr);
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
+
+.content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+  color: v.$color-primary;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin-bottom: 0.875rem;
+  color: v.$color-text;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.05em;
+}
+
+.description {
+  max-width: 42rem;
+  color: v.$color-text-muted;
+  line-height: 1.65;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.5rem;
+
+  span {
+    color: v.$color-text-muted;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-small;
+    color: v.$color-text;
+    background-color: v.$color-background;
+    font: inherit;
+
+    &:focus-visible {
+      outline: 0.1875rem solid v.$color-accent;
+      outline-offset: 0.125rem;
+    }
+  }
+
+  input {
+    min-height: 3.25rem;
+    padding-inline: 1rem;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 7rem;
+    padding: 1rem;
+  }
+}
+
+.submitButton,
+.secondaryButton {
+  @include mixins.focus-ring;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding-inline: 1.5rem;
+  border: 0;
+  border-radius: 999rem;
+  color: v.$color-surface;
+  background-color: v.$color-primary;
+  font: inherit;
+  font-weight: 700;
+  transition:
+    background-color 160ms ease,
+    opacity 160ms ease;
+
+  &:hover {
+    background-color: v.$color-primary-hover;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.48;
+  }
+}
+
+.secondaryButton {
+  margin-top: 1rem;
+}
+
+.summary {
+  min-width: 0;
+  padding: 1.25rem;
+  border-radius: v.$radius-medium;
+  background-color: v.$color-background;
+}
+
+.summaryTitle {
+  margin-bottom: 1rem;
+  color: v.$color-text-muted;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.emptySummary {
+  color: v.$color-text-muted;
+  line-height: 1.6;
+}
+
+.values {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+
+  div {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  dt {
+    color: v.$color-text-muted;
+    font-size: 0.875rem;
+  }
+
+  dd {
+    margin: 0;
+    color: v.$color-text;
+    font-weight: 700;
+  }
+}
+
+.total {
+  padding-top: 1rem;
+  border-top: 1px solid v.$color-border;
+
+  dd {
+    color: v.$color-primary;
+    font-size: 1.25rem;
+  }
+}
+
+.success {
+  max-width: 42rem;
+
+  p {
+    color: v.$color-text-muted;
+    line-height: 1.65;
+  }
+}

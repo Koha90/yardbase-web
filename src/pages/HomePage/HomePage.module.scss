@@ -153,3 +153,11 @@
   background-color: v.$color-surface;
   text-align: center;
 }
+
+.lead {
+  padding-block: 0 4.5rem;
+
+  @media (width >= v.$breakpoint-tablet) {
+    padding-block: 0 6rem;
+  }
+}

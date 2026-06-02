@@ -17,6 +17,20 @@ export interface EstimateResult {
   totalPrice: number;
 }
 
+export interface SelectedEstimate {
+  materialID: string;
+  materialTitle: string;
+  mode: EstimateMode;
+  area: number;
+  totalPrice: number;
+}
+
+export const estimateModeLabels: Record<EstimateMode, string> = {
+  material: "Только материал",
+  base: "Материал + основание",
+  turnkey: "Под ключ",
+};
+
 export function calculateEstimate({
   material,
   area,

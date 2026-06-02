@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Calculator } from "../../components/Calculator/Calculator";
 import { Container } from "../../components/Container/Container";
@@ -7,11 +7,13 @@ import { Header } from "../../components/Header/Header";
 import { Hero } from "../../components/Hero/Hero";
 import { MaterialCard } from "../../components/MaterialCard/MaterialCard";
 import { PurposeCard } from "../../components/PurposeCard/PurposeCard";
+import { LeadForm } from "../../components/LeadForm/LeadForm";
 
 import { materials } from "../../mocks/materials";
 import { purposes } from "../../mocks/purposes";
 import type { MaterialID } from "../../model/material";
 import type { PurposeID } from "../../model/purpose";
+import type { EstimateMode, EstimateResult } from "../../model/estimate";
 
 import styles from "./HomePage.module.scss";
 
@@ -22,6 +24,13 @@ export function HomePage() {
 
   const [selectedMaterialID, setSelectedMaterialID] =
     useState<MaterialID | null>(null);
+
+  const [currentEstimate, setCurrentEstimate] = useState<EstimateResult | null>(
+    null,
+  );
+
+  const [currentEstimateMode, setCurrentEstimateMode] =
+    useState<EstimateMode>("material");
 
   const materialsSectionRef = useRef<HTMLElement>(null);
   const materialsHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -47,6 +56,14 @@ export function HomePage() {
     selectedPurpose === undefined
       ? `Показано покрытий: ${visibleMaterials.length}`
       : `Для задачи «${selectedPurpose.title}» найдено покрытий: ${visibleMaterials.length}`;
+
+  const handleEstimateChange = useCallback(
+    (estimate: EstimateResult | null, mode: EstimateMode) => {
+      setCurrentEstimate(estimate);
+      setCurrentEstimateMode(mode);
+    },
+    [],
+  );
 
   useEffect(() => {
     if (!shouldRevealResultsRef.current) {
@@ -266,8 +283,21 @@ export function HomePage() {
               </p>
             </div>
 
-            <Calculator material={selectedMaterial} />
+            <Calculator
+              material={selectedMaterial}
+              onEstimateChange={handleEstimateChange}
+            />
           </Container>
+
+          <section className={styles.lead} id="lead">
+            <Container>
+              <LeadForm
+                material={selectedMaterial}
+                estimate={currentEstimate}
+                mode={currentEstimateMode}
+              />
+            </Container>
+          </section>
         </section>
       </main>
 
