@@ -288,16 +288,16 @@ export function HomePage() {
               onEstimateChange={handleEstimateChange}
             />
           </Container>
+        </section>
 
-          <section className={styles.lead} id="lead">
-            <Container>
-              <LeadForm
-                material={selectedMaterial}
-                estimate={currentEstimate}
-                mode={currentEstimateMode}
-              />
-            </Container>
-          </section>
+        <section className={styles.lead} id="lead">
+          <Container>
+            <LeadForm
+              material={selectedMaterial}
+              estimate={currentEstimate}
+              mode={currentEstimateMode}
+            />
+          </Container>
         </section>
       </main>
 

@@ -81,9 +81,10 @@ h2 {
   }
 
   textarea {
-    resize: vertical;
-    min-height: 7rem;
+    resize: none;
+    min-height: 8.5rem;
     padding: 1rem;
+    line-height: 1.5;
   }
 }
 
